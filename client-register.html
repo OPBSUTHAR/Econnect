@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Registration - Labor Management System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0e0e0e;
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background: linear-gradient(
+          45deg,
+          #ff0000,
+          #ff7300,
+          #ffeb00,
+          #00ff00,
+          #0099ff,
+          #7a00ff,
+          #ff00ff
+        );
+        padding: 15px;
+        box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.5);
+        animation: rainbow 5s infinite linear;
+      }
+
+      @keyframes rainbow {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      nav {
+        background: #1e1e1e;
+        padding: 10px;
+        text-align: center;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul li {
+        display: inline;
+        margin: 0 15px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+      }
+
+      nav a:hover {
+        color: #ffeb00;
+        text-shadow: 0 0 10px #ffeb00;
+      }
+
+      .form-container {
+        background: rgba(255, 255, 255, 0.1);
+        width: 50%;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        transition: 0.3s;
+      }
+
+      .form-container:hover {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+      }
+
+      label {
+        font-size: 18px;
+        display: block;
+        margin: 10px 0 5px;
+      }
+
+      select,
+      input,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      input,
+      select {
+        background: #1e1e1e;
+        color: white;
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      input:hover,
+      select:hover {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      }
+
+      button {
+        background: linear-gradient(
+          45deg,
+          #ff0000,
+          #ff7300,
+          #ffeb00,
+          #00ff00,
+          #0099ff,
+          #7a00ff,
+          #ff00ff
+        );
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        box-shadow: 0 0 20px white;
+      }
+
+      .client-list {
+        margin: 20px auto;
+        width: 60%;
+        text-align: left;
+      }
+
+      .client-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s;
+      }
+
+      .client-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Client Registration</h1>
+    </header>
+
+    <!-- <nav>
+      <ul>
+        <li><a href="labor.html">Connect India</a></li>
+        <li><a href="labor-list.html">Available Labor</a></li>
+        <li><a href="register.html">Worker-Register</a></li>
+        <li><a href="tracking.html">Location Tracking</a></li>
+        <li><a href="integrations.html">Platforms</a></li>
+      </ul>
+    </nav> -->
+
+    <section class="form-container">
+      <h2>Register as a Client</h2>
+      <form id="client-form">
+        <label for="client-name">Full Name:</label>
+        <input type="text" id="client-name" required />
+
+        <label for="business-type">Business Type:</label>
+        <select id="business-type" required>
+          <option value="">Select Business Type</option>
+          <option>Construction</option>
+          <option>Retail</option>
+          <option>Manufacturing</option>
+          <option>Tech Startup</option>
+          <option>Restaurant</option>
+          <option>Freelancer</option>
+          <option>Real Estate</option>
+          <option>Automobile</option>
+          <option>Finance</option>
+          <option>Healthcare</option>
+          <option>Custom (Enter Below)</option>
+        </select>
+        <input
+          type="text"
+          id="custom-business"
+          placeholder="Enter Business Type"
+          style="display: none"
+        />
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" required />
+
+        <button type="submit">Register</button>
+      </form>
+    </section>
+
+    <section class="client-list">
+      <h2>Registered Clients</h2>
+      <div id="client-container"></div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Labor Management System</p>
+    </footer>
+
+    <script>
+      document
+        .getElementById("client-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let name = document.getElementById("client-name").value;
+          let businessType = document.getElementById("business-type").value;
+          let location = document.getElementById("location").value;
+
+          if (businessType === "Custom (Enter Below)") {
+            businessType = document.getElementById("custom-business").value;
+          }
+
+          if (!name || !businessType || !location) {
+            alert("Please fill all fields.");
+            return;
+          }
+
+          let client = { name, businessType, location };
+
+          let clients = JSON.parse(localStorage.getItem("clients")) || [];
+          clients.push(client);
+          localStorage.setItem("clients", JSON.stringify(clients));
+
+          displayClients();
+
+          alert("Client Registered Successfully!");
+          document.getElementById("client-form").reset();
+        });
+
+      function displayClients() {
+        let clients = JSON.parse(localStorage.getItem("clients")) || [];
+        let container = document.getElementById("client-container");
+        container.innerHTML = "";
+        clients.forEach((client) => {
+          let card = document.createElement("div");
+          card.classList.add("client-card");
+          card.innerHTML = `<h3>${client.name}</h3>
+                                  <p>Business Type: ${client.businessType}</p>
+                                  <p>Location: ${client.location}</p>`;
+          container.appendChild(card);
+        });
+      }
+
+      document
+        .getElementById("business-type")
+        .addEventListener("change", function () {
+          document.getElementById("custom-business").style.display =
+            this.value === "Custom (Enter Below)" ? "block" : "none";
+        });
+
+      displayClients();
+    </script>
+  </body>
+</html>

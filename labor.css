@@ -1,0 +1,88 @@
+/* General Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #0a0a0a;
+  color: white;
+  text-align: center;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  padding: 20px;
+  box-shadow: 0px 4px 15px rgba(255, 106, 0, 0.9);
+  text-transform: uppercase;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 15px;
+}
+
+nav ul li a {
+  color: white;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: #ff6a00;
+  text-shadow: 0 0 15px #ff6a00, 0 0 30px #ee0979;
+}
+
+/* Sections */
+section {
+  padding: 40px;
+  margin: 20px auto;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 0px 10px rgba(255, 106, 0, 0.5);
+  border-radius: 10px;
+}
+
+/* Worker Listings */
+.worker-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 10px auto;
+  width: 60%;
+  transition: 0.4s;
+}
+
+.worker-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 20px rgba(255, 106, 0, 1);
+}
+
+/* Search Bar */
+#search-bar {
+  width: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+/* Map */
+#map {
+  height: 400px;
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
+}
+
+/* Footer */
+footer {
+  background: #111;
+  padding: 10px;
+  font-size: 14px;
+  color: #ff6a00;
+}

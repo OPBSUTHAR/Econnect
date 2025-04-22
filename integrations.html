@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrated Platforms - Labor Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* General Styles */
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0a0a0a;
+      color: white;
+      text-align: center;
+    }
+
+    /* Header with Rainbow Gradient */
+    header {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 1) 0%,
+        rgba(255, 154, 0, 1) 10%,
+        rgba(208, 222, 33, 1) 20%,
+        rgba(79, 220, 74, 1) 30%,
+        rgba(63, 218, 216, 1) 40%,
+        rgba(47, 201, 226, 1) 50%,
+        rgba(28, 127, 238, 1) 60%,
+        rgba(95, 21, 242, 1) 70%,
+        rgba(186, 12, 248, 1) 80%,
+        rgba(251, 7, 217, 1) 90%,
+        rgba(255, 0, 0, 1) 100%
+      );
+      padding: 20px;
+      box-shadow: 0px 4px 15px rgba(255, 106, 0, 0.9);
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ff6a00;
+      text-shadow: 0 0 15px #ff6a00, 0 0 30px #ee0979;
+    }
+
+    /* Sections */
+    section {
+      padding: 40px;
+      margin: 20px auto;
+      width: 80%;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0px 0px 10px rgba(255, 106, 0, 0.5);
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    /* Platform Cards */
+    .platforms-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .platform-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      width: 200px;
+      text-align: center;
+      transition: 0.4s;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .platform-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 20px rgba(255, 106, 0, 1);
+    }
+
+    .platform-card i {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #ff6a00;
+    }
+
+    .platform-card a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .platform-card a:hover {
+      color: #ff6a00;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(20px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      padding: 10px;
+      font-size: 14px;
+      color: #ff6a00;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Labor Management System</h1>
+    <!-- <nav>
+      <ul>
+        <li><a href="labor.html">E-Web Connect</a></li>
+        <li><a href="labor-list.html">Available Labor</a></li>
+        <li><a href="register.html">Worker-Register</a></li>
+        <li><a href="client-register.html">Client-Register</a></li>
+        <li><a href="tracking.html">Location Tracking</a></li>
+      </ul>
+    </nav> -->
+  </header>
+
+  <section>
+    <h2>Integrated Platforms</h2>
+    <div class="platforms-container">
+      <div class="platform-card">
+        <i class="fab fa-ebay"></i>
+        <a href="https://www.ebay.com" target="_blank">eBay</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-amazon"></i>
+        <a href="https://www.amazon.com" target="_blank">Amazon</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-pizza-slice"></i>
+        <a href="https://www.dominos.com" target="_blank">Domino’s</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-utensils"></i>
+        <a href="https://www.swiggy.com" target="_blank">Swiggy</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-truck"></i>
+        <a href="https://www.porter.in" target="_blank">Porter</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-flipkart"></i>
+        <a href="https://www.flipkart.com" target="_blank">Flipkart</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-utensils"></i>
+        <a href="https://www.zomato.com" target="_blank">Zomato</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-uber"></i>
+        <a href="https://www.uber.com" target="_blank">Uber</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-google"></i>
+        <a href="https://www.ola.com" target="_blank">Ola</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-slack"></i>
+        <a href="https://www.slack.com" target="_blank">Slack</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-github"></i>
+        <a href="https://www.github.com" target="_blank">GitHub</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-trello"></i>
+        <a href="https://www.trello.com" target="_blank">Trello</a>
+      </div>
+      <!-- Additional Platforms -->
+      <div class="platform-card">
+        <i class="fab fa-shopify"></i>
+        <a href="https://www.shopify.com" target="_blank">Shopify</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-walmart"></i>
+        <a href="https://www.walmart.com" target="_blank">Walmart</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-etsy"></i>
+        <a href="https://www.etsy.com" target="_blank">Etsy</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.aliexpress.com" target="_blank">AliExpress</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-utensils"></i>
+        <a href="https://www.ubereats.com" target="_blank">Uber Eats</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-utensils"></i>
+        <a href="https://www.doordash.com" target="_blank">DoorDash</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-utensils"></i>
+        <a href="https://www.grubhub.com" target="_blank">Grubhub</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-bag"></i>
+        <a href="https://www.target.com" target="_blank">Target</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-basket"></i>
+        <a href="https://www.bestbuy.com" target="_blank">Best Buy</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-basket"></i>
+        <a href="https://www.costco.com" target="_blank">Costco</a>
+      </div>
+      <!-- More Platforms -->
+      <div class="platform-card">
+        <i class="fab fa-alibaba"></i>
+        <a href="https://www.alibaba.com" target="_blank">Alibaba</a>
+      </div>
+      <div class="platform-card">
+        <i class="fab fa-taobao"></i>
+        <a href="https://www.taobao.com" target="_blank">Taobao</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.jd.com" target="_blank">JD.com</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.rakuten.com" target="_blank">Rakuten</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.wish.com" target="_blank">Wish</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.newegg.com" target="_blank">Newegg</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.overstock.com" target="_blank">Overstock</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.asos.com" target="_blank">ASOS</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.zalando.com" target="_blank">Zalando</a>
+      </div>
+      <div class="platform-card">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="https://www.shein.com" target="_blank">SHEIN</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Labor Management System. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

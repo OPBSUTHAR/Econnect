@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Tracking - Labor Management System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0e0e0e;
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background: linear-gradient(
+          45deg,
+          #ff0000,
+          #ff7300,
+          #ffeb00,
+          #00ff00,
+          #0099ff,
+          #7a00ff,
+          #ff00ff
+        );
+        padding: 15px;
+        box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.5);
+        animation: rainbow 5s infinite linear;
+      }
+
+      @keyframes rainbow {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      nav {
+        background: #1e1e1e;
+        padding: 10px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      nav a:hover {
+        color: #ffeb00;
+        text-shadow: 0 0 10px #ffeb00;
+      }
+
+      section {
+        margin: 20px auto;
+        padding: 20px;
+        width: 90%;
+        max-width: 1200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        transition: 0.3s;
+      }
+
+      section:hover {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .state-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .state-card {
+        background: rgba(255, 255, 255, 0.1);
+        width: 250px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        transition: 0.3s;
+        text-align: center;
+      }
+
+      .state-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px white;
+      }
+
+      .state-card img {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .links a {
+        color: #ffeb00;
+        text-decoration: none;
+        font-weight: bold;
+        display: block;
+        margin-top: 5px;
+      }
+
+      .links a:hover {
+        text-shadow: 0 0 10px #ffeb00;
+      }
+
+      footer {
+        margin-top: 20px;
+        padding: 10px;
+        background: #111;
+      }
+
+      nav {
+        background: #1e1e1e;
+        padding: 10px;
+      }
+
+      nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav li {
+        display: inline;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 15px;
+        transition: 0.3s ease-in-out;
+        border-radius: 5px;
+      }
+
+      nav a:hover {
+        background: rgba(255, 235, 0, 0.2);
+        color: #ffeb00;
+        text-shadow: 0 0 10px #ffeb00;
+      }
+    </style>
+
+    <!-- Leaflet.js for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Location Maps</h1>
+    </header>
+
+    <!-- <nav>
+      <ul>
+        <li><a href="labor.html">Connect India</a></li>
+        <li><a href="labor-list.html">Available Labor</a></li>
+        <li><a href="register.html">Worker-Register</a></li>
+        <li><a href="client-register.html">Client-Register</a></li>
+        <li><a href="integrations.html">Platforms</a></li>
+      </ul>
+    </nav> -->
+
+    <section>
+      <h2>World Map</h2>
+      <div id="map"></div>
+      <p id="info">Click on the map to see location details.</p>
+      <button onclick="getLocation()">📍 Fetch Location</button>
+      <button onclick="resetMap()">🔄 Reset Map</button>
+    </section>
+
+    <section>
+      <h2>Indian States & UTs Information</h2>
+      <div class="state-container" id="state-container"></div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Labor Management System</p>
+    </footer>
+
+    <script>
+      // Initialize World Map
+      let map = L.map("map").setView([20, 77], 4); // Centered on India
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      // All 28 Indian States & 8 Union Territories Data
+      let states = [
+        // Indian States (28)
+        {
+          name: "Andhra Pradesh",
+          img: "AP.jpeg",
+          gov: "https://www.ap.gov.in/",
+        },
+        {
+          name: "Arunachal Pradesh",
+          img: "AruP.jpeg",
+          gov: "https://www.arunachalpradesh.gov.in/",
+        },
+        {
+          name: "Assam",
+          img: "assam.jpeg",
+          gov: "https://assam.gov.in/",
+        },
+        {
+          name: "Bihar",
+          img: "bihar.jpeg",
+          gov: "https://state.bihar.gov.in/",
+        },
+        {
+          name: "Chhattisgarh",
+          img: "chhattisgarh.jpeg",
+          gov: "https://www.cgstate.gov.in/",
+        },
+        {
+          name: "Goa",
+          img: "goa.jpeg",
+          gov: "https://www.goa.gov.in/",
+        },
+        {
+          name: "Gujarat",
+          img: "gujarat.jpeg",
+          gov: "https://gujaratindia.gov.in/",
+        },
+        {
+          name: "Haryana",
+          img: "haryana.jpeg",
+          gov: "https://haryana.gov.in/",
+        },
+        {
+          name: "Himachal Pradesh",
+          img: "himachal pradesh.jpeg",
+          gov: "https://himachal.nic.in/",
+        },
+        {
+          name: "Jharkhand",
+          img: "jharkhand.jpeg",
+          gov: "https://www.jharkhand.gov.in/",
+        },
+        {
+          name: "Karnataka",
+          img: "karnataka.jpeg",
+          gov: "https://www.karnataka.gov.in/",
+        },
+        {
+          name: "Kerala",
+          img: "kerala.jpeg",
+          gov: "https://kerala.gov.in/",
+        },
+        {
+          name: "Madhya Pradesh",
+          img: "madhya pradesh.jpeg",
+          gov: "https://www.mp.gov.in/",
+        },
+        {
+          name: "Maharashtra",
+          img: "maharashtra.jpeg",
+          gov: "https://www.maharashtra.gov.in/",
+        },
+        {
+          name: "Manipur",
+          img: "manipur.jpeg",
+          gov: "https://manipur.gov.in/",
+        },
+        {
+          name: "Meghalaya",
+          img: "meghalaya.jpeg",
+          gov: "https://meghalaya.gov.in/",
+        },
+        {
+          name: "Mizoram",
+          img: "mizoram.jpeg",
+          gov: "https://mizoram.gov.in/",
+        },
+        {
+          name: "Nagaland",
+          img: "nagaland.jpeg",
+          gov: "https://nagaland.gov.in/",
+        },
+        {
+          name: "Odisha",
+          img: "odisha.jpeg",
+          gov: "https://www.odisha.gov.in/",
+        },
+        {
+          name: "Punjab",
+          img: "punjab.jpeg",
+          gov: "https://punjab.gov.in/",
+        },
+        {
+          name: "Rajasthan",
+          img: "rajasthan.jpeg",
+          gov: "https://www.rajasthan.gov.in/",
+        },
+        {
+          name: "Sikkim",
+          img: "sikkim.jpeg",
+          gov: "https://www.sikkim.gov.in/",
+        },
+        {
+          name: "Tamil Nadu",
+          img: "tamil Nadu.jpeg",
+          gov: "https://www.tn.gov.in/",
+        },
+        {
+          name: "Telangana",
+          img: "telangana.jpeg",
+          gov: "https://www.telangana.gov.in/",
+        },
+        {
+          name: "Tripura",
+          img: "tripura.jpeg",
+          gov: "https://tripura.gov.in/",
+        },
+        {
+          name: "Uttar Pradesh",
+          img: "uttar Pradesh.jpeg",
+          gov: "https://up.gov.in/",
+        },
+        {
+          name: "Uttarakhand",
+          img: "uttarkhand.jpeg",
+          gov: "https://uk.gov.in/",
+        },
+        {
+          name: "West Bengal",
+          img: "west Bengal.jpeg",
+          gov: "https://wb.gov.in/",
+        },
+
+        // Union Territories (8)
+        {
+          name: "Andaman and Nicobar Islands",
+          img: "ANDAMAN and NICO.jpeg",
+          gov: "https://www.andaman.gov.in/",
+        },
+        {
+          name: "Chandigarh",
+          img: "chandigard.jpeg",
+          gov: "http://chandigarh.gov.in/",
+        },
+        {
+          name: "Dadra and Nagar Haveli and Daman and Diu",
+          img: "Dadra and Nagar Haveli and Daman and Diu.jpeg",
+          gov: "https://ddd.gov.in/",
+        },
+        {
+          name: "Lakshadweep",
+          img: "lakshdweep.jpeg",
+          gov: "https://lakshadweep.gov.in/",
+        },
+        {
+          name: "Delhi",
+          img: "delhi.jpeg",
+          gov: "https://delhi.gov.in/",
+        },
+        {
+          name: "Puducherry",
+          img: "puducherry.jpeg",
+          gov: "https://www.py.gov.in/",
+        },
+        {
+          name: "Jammu and Kashmir",
+          img: "jammu and Kashmir.jpeg",
+          gov: "https://jk.gov.in/",
+        },
+        {
+          name: "Ladakh",
+          img: "ladakh.jpeg",
+          gov: "https://ladakh.nic.in/",
+        },
+      ];
+
+      function displayStates() {
+        let container = document.getElementById("state-container");
+        container.innerHTML = "";
+        states.forEach((state) => {
+          let card = document.createElement("div");
+          card.classList.add("state-card");
+          card.innerHTML = `<img src="${state.img}" alt="${state.name}">
+                                  <h3>${state.name}</h3>
+                                  <div class="links">
+                                      <a href="https://www.google.com/search?q=${state.name}+India" target="_blank">🔍 Google Search</a>
+                                      <a href="${state.gov}" target="_blank">🌐 Official Website</a>
+                                  </div>`;
+          container.appendChild(card);
+        });
+      }
+
+      displayStates();
+
+      let marker;
+
+      function showLocationInfo(lat, lon, place) {
+        document.getElementById("info").innerHTML = `📍 <b>Latitude:</b> ${lat}, <b>Longitude:</b> ${lon} <br> 🌍 <b>Location:</b> ${place}`;
+      }
+
+      map.on("click", async function (e) {
+        let { lat, lng } = e.latlng;
+
+        if (marker) {
+          marker.remove();
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        try {
+          let response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+          );
+          let data = await response.json();
+          let place = data.display_name || "Unknown location";
+          marker.bindPopup(place).openPopup();
+          showLocationInfo(lat, lng, place);
+        } catch (error) {
+          console.error("Error fetching location data:", error);
+          showLocationInfo(lat, lng, "Location not found");
+        }
+      });
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              let lat = position.coords.latitude;
+              let lon = position.coords.longitude;
+
+              map.setView([lat, lon], 12);
+
+              if (marker) {
+                marker.remove();
+              }
+
+              marker = L.marker([lat, lon]).addTo(map);
+
+              try {
+                let response = await fetch(
+                  `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+                );
+                let data = await response.json();
+                let place = data.display_name || "Your Location";
+                marker.bindPopup(place).openPopup();
+                showLocationInfo(lat, lon, place);
+              } catch (error) {
+                console.error("Error fetching location data:", error);
+                showLocationInfo(lat, lon, "Location not found");
+              }
+            },
+            (error) => {
+              alert("Location access denied or unavailable.");
+            }
+          );
+        } else {
+          alert("Geolocation is not supported by your browser.");
+        }
+      }
+
+      function resetMap() {
+        map.setView([20.5937, 78.9629], 5);
+        if (marker) {
+          marker.remove();
+          marker = null;
+        }
+        document.getElementById("info").innerHTML = "Click on the map to see location details.";
+      }
+    </script>
+    
+  </body>
+</html>
